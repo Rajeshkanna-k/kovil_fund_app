@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Kovil Fund App" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <!-- 🔝 Navbar -->
+    <nav style="background:#7b3f00; padding:10px;">
+      <!-- 🛕 Dashboard link -->
+      <%= link_to "🛕 கோவில் நிதி மேலாண்மை",
+                  root_path,
+                  style: "color:white; font-weight:bold; text-decoration:none;" %>
+
+      <span style="float:right;">
+        <%= link_to "நிதி சேர்க்க", new_fund_collection_path,
+            style: "color:white; margin-right:15px;" %>
+
+        <%= link_to "கல்வெட்டு அறிக்கை", reports_kalvettu_path,
+            style: "color:white; margin-right:15px;" %>
+
+        <%= link_to "தலைக்கட்டு வரி", new_thalakattu_vari_path,
+            style: "color:white; margin-right:15px;" %>
+
+        <%= link_to "தலைக்கட்டு அறிக்கை", thalakattu_varis_path,
+            style: "color:white;" %>
+      </span>
+    </nav>
+
+    <!-- 🔽 Page Content -->
+    <div style="padding:15px;">
+      <%= yield %>
+    </div>
+  </body>
+</html>

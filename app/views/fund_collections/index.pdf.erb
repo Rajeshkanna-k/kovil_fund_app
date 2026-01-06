@@ -1,0 +1,33 @@
+<h2>🛕 கோவில் நிதி வசூல் அறிக்கை</h2>
+
+<p>
+  தேதி : <%= Date.today.strftime("%d-%m-%Y") %>
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>பெயர்</th>
+      <th>பகுதி</th>
+      <th>தொகை (₹)</th>
+      <th>பணம் செலுத்தும் முறை</th>
+      <th>தேதி</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @funds.each do |fund| %>
+      <tr>
+        <td><%= fund.name %></td>
+        <td><%= fund.area %></td>
+        <td><%= fund.amount %></td>
+        <td><%= fund.payment_mode.capitalize %></td>
+        <td><%= fund.created_at.strftime("%d-%m-%Y") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p class="total">
+  மொத்த நிதி : ₹ <%= @funds.sum(&:amount) %>
+</p>

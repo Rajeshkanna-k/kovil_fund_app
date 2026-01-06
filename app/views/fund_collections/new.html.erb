@@ -1,0 +1,40 @@
+<h2>➕ புதிய நிதி சேர்க்க</h2>
+
+<%= form_with model: @fund, local: true do |f| %>
+
+  <div>
+    <label>பெயர்</label><br>
+    <%= f.text_field :name, required: true %>
+  </div>
+
+  <br>
+
+  <div>
+    <label>பகுதி</label><br>
+    <%= f.text_field :area, required: true %>
+  </div>
+
+  <br>
+
+  <div>
+    <label>தொகை (₹)</label><br>
+    <%= f.number_field :amount, required: true %>
+  </div>
+
+  <br>
+
+  <div>
+    <label>பணம் செலுத்தும் முறை</label><br>
+    <%= f.select :payment_mode, ["cash", "phonepe"], prompt: "தேர்வு செய்க" %>
+  </div>
+
+  <br>
+
+  <%= f.submit "💾 சேமிக்க" %>
+
+<% end %>
+
+<hr>
+
+<!-- 🔙 View Fund Option -->
+<%= link_to "📋 நிதி பட்டியல் பார்க்க", fund_collections_path %>

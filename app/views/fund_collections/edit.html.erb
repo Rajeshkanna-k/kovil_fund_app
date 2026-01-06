@@ -1,0 +1,39 @@
+<h2>✏️ நிதி திருத்தம்</h2>
+
+<%= form_with model: @fund, local: true do |f| %>
+
+  <div>
+    <label>பெயர்</label><br>
+    <%= f.text_field :name, required: true %>
+  </div>
+
+  <br>
+
+  <div>
+    <label>பகுதி</label><br>
+    <%= f.text_field :area, required: true %>
+  </div>
+
+  <br>
+
+  <div>
+    <label>தொகை (₹)</label><br>
+    <%= f.number_field :amount, required: true %>
+  </div>
+
+  <br>
+
+  <div>
+    <label>பணம் செலுத்தும் முறை</label><br>
+    <%= f.select :payment_mode, ["cash", "phonepe"] %>
+  </div>
+
+  <br>
+
+  <%= f.submit "💾 புதுப்பிக்க" %>
+
+<% end %>
+
+<hr>
+
+<%= link_to "🔙 நிதி பட்டியல்", fund_collections_path %>

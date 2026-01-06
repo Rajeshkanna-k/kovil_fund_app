@@ -1,0 +1,60 @@
+<h2>📊 கல்வெட்டு நிதி அறிக்கை (₹5000 மேல்)</h2>
+
+<hr>
+
+<p>
+  <strong>மொத்த தொகை (₹5000 மேல்):</strong>
+  ₹ <%= @total_amount %>
+</p>
+
+<br>
+
+<table border="1" width="100%" cellpadding="8" cellspacing="0">
+  <thead style="background:#f2f2f2;">
+    <tr>
+      <th>பெயர்</th>
+      <th>பகுதி</th>
+
+      <!-- 🔁 Amount Sort -->
+      <th>
+        <%= link_to "தொகை (₹)",
+          reports_kalvettu_path(
+            sort: "amount",
+            direction: params[:direction] == "asc" ? "desc" : "asc"
+          ) %>
+      </th>
+
+      <th>பணம் செலுத்தும் முறை</th>
+      <th>தேதி</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @funds.any? %>
+      <% @funds.each do |fund| %>
+        <tr>
+          <td><%= fund.name %></td>
+          <td><%= fund.area %></td>
+          <td><strong>₹ <%= fund.amount %></strong></td>
+          <td><%= fund.payment_mode.capitalize %></td>
+          <td><%= fund.created_at.strftime("%d-%m-%Y") %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="5" align="center">
+          ₹5000 மேல் எந்த பதிவும் இல்லை
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<!-- 📄 Pagination -->
+<%= paginate @funds %>
+
+<br>
+
+<button onclick="window.print()">🖨️ Print Kalvettu Report</button>

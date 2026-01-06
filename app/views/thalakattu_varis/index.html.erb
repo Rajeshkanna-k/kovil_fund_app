@@ -1,0 +1,21 @@
+<h2>தலைக்கட்டு வரி அறிக்கை</h2>
+
+<table border="1">
+  <tr>
+    <th>பெயர்</th>
+    <th>பகுதி</th>
+    <th>தொகை</th>
+    <th>பணம் செலுத்தும் முறை</th>
+  </tr>
+
+  <% @entries.each do |entry| %>
+    <tr>
+      <td><%= entry.name %></td>
+      <td><%= entry.area %></td>
+      <td>₹ <%= entry.amount %></td>
+      <td><%= entry.payment_mode.capitalize %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= paginate @entries %>
