@@ -1,29 +1,20 @@
 databases:
-  - name: mysite-db
-    databaseName: mysite
-    user: mysite
+  - name: kovil-fund-db
     plan: free
 
 services:
   - type: web
-    name: mysite
+    name: kovil-fund-app
     runtime: ruby
     plan: free
-
-    buildCommand: "./bin/render-build.sh"
-    startCommand: "bundle exec puma -C config/puma.rb"
-
+    buildCommand: |
+      bundle install
+      bundle exec rake assets:precompile
+    startCommand: bundle exec puma -C config/puma.rb
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: mysite-db
+          name: kovil-fund-db
           property: connectionString
-
       - key: RAILS_MASTER_KEY
         sync: false
-
-      - key: RAILS_ENV
-        value: production
-
-      - key: WEB_CONCURRENCY
-        value: "2"
