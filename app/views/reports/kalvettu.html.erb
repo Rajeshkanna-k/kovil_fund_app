@@ -10,14 +10,12 @@
       background: #fafafa;
     }
 
-    /* ===== SCREEN HEADER ===== */
     .screen-header {
       text-align: center;
       color: #7b3f00;
       margin-bottom: 10px;
     }
 
-    /* ===== PRINT HEADER ===== */
     .print-header {
       display: none;
       text-align: center;
@@ -34,7 +32,6 @@
       font-size: 14px;
     }
 
-    /* ===== NAVBAR ===== */
     .navbar {
       background: #7b3f00;
       padding: 10px;
@@ -70,6 +67,15 @@
       background: #f2f2f2;
     }
 
+    th a {
+      color: black;
+      text-decoration: none;
+    }
+
+    th a:hover {
+      text-decoration: underline;
+    }
+
     .actions {
       margin-top: 15px;
       text-align: center;
@@ -84,19 +90,16 @@
       cursor: pointer;
     }
 
-    /* ===== PRINT SETTINGS ===== */
     @media print {
 
       body {
         background: white;
       }
 
-      /* Show print header */
       .print-header {
         display: block;
       }
 
-      /* Hide screen-only elements */
       .navbar,
       .screen-header,
       .summary,
@@ -105,7 +108,6 @@
         display: none !important;
       }
 
-      /* Hide unwanted columns */
       .hide-print {
         display: none !important;
       }
@@ -120,6 +122,7 @@
 
 <body>
 
+  <!-- 🔝 NAVBAR (SCREEN ONLY) -->
   <!-- 🖥️ SCREEN HEADER -->
   <h2 class="screen-header">📊 கல்வெட்டு நிதி அறிக்கை (₹5000 மேல்)</h2>
 
@@ -142,7 +145,15 @@
         <th>வ.எண்</th>
         <th>பெயர்</th>
         <th>ஊர்</th>
-        <th>தொகை (₹)</th>
+
+        <!-- 🔁 AMOUNT SORT (SCREEN ONLY, PRINT SAFE) -->
+        <th>
+          <%= link_to "தொகை (₹)",
+            reports_kalvettu_path(
+              sort: "amount",
+              direction: params[:direction] == "asc" ? "desc" : "asc"
+            ) %>
+        </th>
 
         <!-- SCREEN ONLY -->
         <th class="hide-print">பணம் செலுத்தும் முறை</th>
