@@ -1,60 +1,185 @@
-<h2>📊 கல்வெட்டு நிதி அறிக்கை (₹5000 மேல்)</h2>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<hr>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 15px;
+      background: #fafafa;
+    }
 
-<p>
-  <strong>மொத்த தொகை (₹5000 மேல்):</strong>
-  ₹ <%= @total_amount %>
-</p>
+    /* ===== SCREEN HEADER ===== */
+    .screen-header {
+      text-align: center;
+      color: #7b3f00;
+      margin-bottom: 10px;
+    }
 
-<br>
+    /* ===== PRINT HEADER ===== */
+    .print-header {
+      display: none;
+      text-align: center;
+      margin-bottom: 15px;
+    }
 
-<table border="1" width="100%" cellpadding="8" cellspacing="0">
-  <thead style="background:#f2f2f2;">
-    <tr>
-      <th>பெயர்</th>
-      <th>பகுதி</th>
+    .print-header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
 
-      <!-- 🔁 Amount Sort -->
-      <th>
-        <%= link_to "தொகை (₹)",
-          reports_kalvettu_path(
-            sort: "amount",
-            direction: params[:direction] == "asc" ? "desc" : "asc"
-          ) %>
-      </th>
+    .print-header p {
+      margin: 4px 0 0;
+      font-size: 14px;
+    }
 
-      <th>பணம் செலுத்தும் முறை</th>
-      <th>தேதி</th>
-    </tr>
-  </thead>
+    /* ===== NAVBAR ===== */
+    .navbar {
+      background: #7b3f00;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
 
-  <tbody>
-    <% if @funds.any? %>
-      <% @funds.each do |fund| %>
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-right: 15px;
+      font-weight: bold;
+    }
+
+    .summary {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f2f2f2;
+    }
+
+    .actions {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .print-btn {
+      background: #2e7d32;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* ===== PRINT SETTINGS ===== */
+    @media print {
+
+      body {
+        background: white;
+      }
+
+      /* Show print header */
+      .print-header {
+        display: block;
+      }
+
+      /* Hide screen-only elements */
+      .navbar,
+      .screen-header,
+      .summary,
+      .actions,
+      .pagination {
+        display: none !important;
+      }
+
+      /* Hide unwanted columns */
+      .hide-print {
+        display: none !important;
+      }
+
+      th {
+        background: #eaeaea !important;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 🖥️ SCREEN HEADER -->
+  <h2 class="screen-header">📊 கல்வெட்டு நிதி அறிக்கை (₹5000 மேல்)</h2>
+
+  <!-- 🖨️ PRINT HEADER -->
+  <div class="print-header">
+    <h2>📊 கல்வெட்டு நிதி அறிக்கை</h2>
+    <p>₹5000 மேல் வழங்கிய நிதி விவரம்</p>
+  </div>
+
+  <!-- SCREEN ONLY -->
+  <div class="summary">
+    <strong>மொத்த தொகை (₹5000 மேல்):</strong>
+    ₹ <%= @total_amount %>
+  </div>
+
+  <!-- 📄 TABLE -->
+  <table>
+    <thead>
+      <tr>
+        <th>வ.எண்</th>
+        <th>பெயர்</th>
+        <th>ஊர்</th>
+        <th>தொகை (₹)</th>
+
+        <!-- SCREEN ONLY -->
+        <th class="hide-print">பணம் செலுத்தும் முறை</th>
+        <th class="hide-print">தேதி</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% if @funds.any? %>
+        <% @funds.each_with_index do |fund, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= fund.name %></td>
+            <td><%= fund.area %></td>
+            <td><strong>₹ <%= fund.amount %></strong></td>
+
+            <!-- SCREEN ONLY -->
+            <td class="hide-print"><%= fund.payment_mode.capitalize %></td>
+            <td class="hide-print"><%= fund.created_at.strftime("%d-%m-%Y") %></td>
+          </tr>
+        <% end %>
+      <% else %>
         <tr>
-          <td><%= fund.name %></td>
-          <td><%= fund.area %></td>
-          <td><strong>₹ <%= fund.amount %></strong></td>
-          <td><%= fund.payment_mode.capitalize %></td>
-          <td><%= fund.created_at.strftime("%d-%m-%Y") %></td>
+          <td colspan="6">₹5000 மேல் எந்த பதிவும் இல்லை</td>
         </tr>
       <% end %>
-    <% else %>
-      <tr>
-        <td colspan="5" align="center">
-          ₹5000 மேல் எந்த பதிவும் இல்லை
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
 
-<br>
+  <!-- SCREEN ONLY -->
+  <div class="pagination">
+    <%= paginate @funds %>
+  </div>
 
-<!-- 📄 Pagination -->
-<%= paginate @funds %>
+  <div class="actions">
+    <button class="print-btn" onclick="window.print()">🖨️ Print Kalvettu Report</button>
+  </div>
 
-<br>
-
-<button onclick="window.print()">🖨️ Print Kalvettu Report</button>
+</body>
+</html>
