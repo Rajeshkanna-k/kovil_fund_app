@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   get "reports/kalvettu", to: "reports#kalvettu", as: "reports_kalvettu"
 
   get "up" => "rails/health#show", as: :rails_health_check
+  get "/manifest.json", to: proc { [204, {}, [""]] }
+
 end
