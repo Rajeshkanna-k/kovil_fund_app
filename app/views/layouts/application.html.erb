@@ -1,49 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="ta">
   <head>
     <title><%= content_for(:title) || "Kovil Fund App" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <!-- ✅ MUST for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <link rel="manifest" href="/manifest.json">
+    <!-- Icons -->
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <!-- ✅ Minimal internal CSS for responsiveness -->
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow-x: hidden;
+      }
+
+      .navbar {
+        background: #7b3f00;
+        padding: 10px 15px;
+      }
+
+      .navbar-title {
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        margin-bottom: 8px;
+        word-break: break-word;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        background: rgba(255,255,255,0.15);
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+
+      .page-container {
+        padding: 15px;
+        max-width: 1100px;
+        margin: auto;
+      }
+
+      @media (min-width: 768px) {
+        .navbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .navbar-title {
+          margin-bottom: 0;
+          text-align: left;
+          font-size: 22px;
+        }
+
+        .nav-links {
+          justify-content: flex-end;
+        }
+      }
+    </style>
   </head>
 
   <body>
     <!-- 🔝 Navbar -->
-    <nav style="background:#7b3f00; padding:10px;">
-      <!-- 🛕 Dashboard link -->
+    <nav class="navbar">
       <%= link_to "🛕 கோவில் நிதி மேலாண்மை",
                   root_path,
-                  style: "color:white; font-weight:bold; text-decoration:none;" %>
+                  class: "navbar-title" %>
 
-      <span style="float:right;">
-        <%= link_to "நிதி சேர்க்க", new_fund_collection_path,
-            style: "color:white; margin-right:15px;" %>
-
-        <%= link_to "கல்வெட்டு அறிக்கை", reports_kalvettu_path,
-            style: "color:white; margin-right:15px;" %>
-
-        <%= link_to "தலைக்கட்டு வரி", new_thalakattu_vari_path,
-            style: "color:white; margin-right:15px;" %>
-
-        <%= link_to "தலைக்கட்டு அறிக்கை", thalakattu_varis_path,
-            style: "color:white;" %>
-      </span>
+      <div class="nav-links">
+        <%= link_to "➕ நிதி சேர்க்க", new_fund_collection_path %>
+        <%= link_to "📄 கல்வெட்டு அறிக்கை", reports_kalvettu_path %>
+        <%= link_to "🧾 தலைக்கட்டு வரி", new_thalakattu_vari_path %>
+        <%= link_to "📊 தலைக்கட்டு அறிக்கை", thalakattu_varis_path %>
+      </div>
     </nav>
 
     <!-- 🔽 Page Content -->
-    <div style="padding:15px;">
+    <main class="page-container">
       <%= yield %>
-    </div>
+    </main>
   </body>
 </html>
