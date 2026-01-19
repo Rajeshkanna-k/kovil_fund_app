@@ -9,7 +9,7 @@ class ReportsController < ApplicationController
                .order("#{sort_column} #{sort_order}")
 
     # 📄 Pagination (Kaminari)
-    @funds = @funds.page(params[:page]).per(10)
+    @funds = @funds.page(params[:page]).per(20)
 
     # 💰 Total amount (without pagination)
     @total_amount = FundCollection

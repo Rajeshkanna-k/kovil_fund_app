@@ -32,22 +32,16 @@
       font-size: 14px;
     }
 
-    .navbar {
-      background: #7b3f00;
-      padding: 10px;
-      margin-bottom: 15px;
-    }
-
-    .navbar a {
-      color: white;
-      text-decoration: none;
-      margin-right: 15px;
+    .summary {
+      margin-bottom: 8px;
+      font-size: 16px;
       font-weight: bold;
     }
 
-    .summary {
-      margin-bottom: 15px;
-      font-size: 16px;
+    .record-info {
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: bold;
     }
 
     table {
@@ -96,13 +90,17 @@
         background: white;
       }
 
+      nav {
+        display: none !important;
+      }
+
       .print-header {
         display: block;
       }
 
-      .navbar,
       .screen-header,
       .summary,
+      .record-info,
       .actions,
       .pagination {
         display: none !important;
@@ -122,7 +120,6 @@
 
 <body>
 
-  <!-- 🔝 NAVBAR (SCREEN ONLY) -->
   <!-- 🖥️ SCREEN HEADER -->
   <h2 class="screen-header">📊 கல்வெட்டு நிதி அறிக்கை (₹5000 மேல்)</h2>
 
@@ -134,8 +131,18 @@
 
   <!-- SCREEN ONLY -->
   <div class="summary">
-    <strong>மொத்த தொகை (₹5000 மேல்):</strong>
-    ₹ <%= @total_amount %>
+    மொத்த தொகை (₹5000 மேல்): ₹ <%= @total_amount %>
+  </div>
+
+  <!-- Showing X – Y of Z -->
+  <div class="record-info">
+    Showing
+    <%= @funds.offset_value + 1 %>
+    –
+    <%= [@funds.offset_value + @funds.limit_value, @funds.total_count].min %>
+    of
+    <%= @funds.total_count %>
+    records
   </div>
 
   <!-- 📄 TABLE -->
@@ -146,7 +153,6 @@
         <th>பெயர்</th>
         <th>ஊர்</th>
 
-        <!-- 🔁 AMOUNT SORT (SCREEN ONLY, PRINT SAFE) -->
         <th>
           <%= link_to "தொகை (₹)",
             reports_kalvettu_path(
@@ -155,7 +161,6 @@
             ) %>
         </th>
 
-        <!-- SCREEN ONLY -->
         <th class="hide-print">பணம் செலுத்தும் முறை</th>
         <th class="hide-print">தேதி</th>
       </tr>
@@ -165,12 +170,10 @@
       <% if @funds.any? %>
         <% @funds.each_with_index do |fund, index| %>
           <tr>
-            <td><%= index + 1 %></td>
+            <td><%= @funds.offset_value + index + 1 %></td>
             <td><%= fund.name %></td>
             <td><%= fund.area %></td>
             <td><strong>₹ <%= fund.amount %></strong></td>
-
-            <!-- SCREEN ONLY -->
             <td class="hide-print"><%= fund.payment_mode.capitalize %></td>
             <td class="hide-print"><%= fund.created_at.strftime("%d-%m-%Y") %></td>
           </tr>
@@ -183,7 +186,6 @@
     </tbody>
   </table>
 
-  <!-- SCREEN ONLY -->
   <div class="pagination">
     <%= paginate @funds %>
   </div>
