@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root "dashboard#index"
-  resources :fund_collections
 
+  resources :fund_collections, except: [:show]
 
   resources :thalakattu_varis, only: [:index, :new, :create]
 
@@ -9,5 +9,4 @@ Rails.application.routes.draw do
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "/manifest.json", to: proc { [204, {}, [""]] }
-
 end

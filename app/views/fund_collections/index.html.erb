@@ -7,14 +7,26 @@
 
 <!-- 🔍 Search -->
 <%= form_with url: fund_collections_path, method: :get, local: true do %>
-  <input type="text" name="search" placeholder="பெயர் / பகுதி" value="<%= params[:search] %>">
+  <input type="text"
+         name="search"
+         placeholder="பெயர் / பகுதி"
+         value="<%= params[:search] %>">
   <input type="submit" value="தேடு">
 <% end %>
 
 <br>
 
 <!-- 📄 PDF + 🖨️ Print -->
-<%= link_to "📄 PDF", fund_collections_path(format: :pdf, search: params[:search], sort: params[:sort], direction: params[:direction]), target: "_blank", style: "margin-right:10px;" %>
+<%= link_to "📄 PDF",
+    fund_collections_path(
+      format: :pdf,
+      search: params[:search],
+      sort: params[:sort],
+      direction: params[:direction]
+    ),
+    target: "_blank",
+    style: "margin-right:10px;" %>
+
 <button onclick="window.print()">🖨️ Print</button>
 
 <br><br>
@@ -23,9 +35,11 @@
   <table border="1" cellpadding="8" cellspacing="0" width="100%">
     <thead>
       <tr style="background:#f2f2f2;">
-        <!-- Sortable Columns -->
+
+        <!-- 👤 Name -->
         <th>
-          <%= link_to "பெயர்", fund_collections_path(
+          <%= link_to "பெயர்",
+              fund_collections_path(
                 search: params[:search],
                 sort: "name",
                 direction: params[:direction] == "asc" ? "desc" : "asc"
@@ -35,8 +49,10 @@
           <% end %>
         </th>
 
+        <!-- 🏠 Area -->
         <th>
-          <%= link_to "ஊர்", fund_collections_path(
+          <%= link_to "ஊர்",
+              fund_collections_path(
                 search: params[:search],
                 sort: "area",
                 direction: params[:direction] == "asc" ? "desc" : "asc"
@@ -46,8 +62,10 @@
           <% end %>
         </th>
 
+        <!-- 💰 Amount -->
         <th>
-          <%= link_to "தொகை (₹)", fund_collections_path(
+          <%= link_to "தொகை (₹)",
+              fund_collections_path(
                 search: params[:search],
                 sort: "amount",
                 direction: params[:direction] == "asc" ? "desc" : "asc"
@@ -57,8 +75,10 @@
           <% end %>
         </th>
 
+        <!-- 💳 Payment -->
         <th>
-          <%= link_to "பணம் செலுத்தும் முறை", fund_collections_path(
+          <%= link_to "பணம் செலுத்தும் முறை",
+              fund_collections_path(
                 search: params[:search],
                 sort: "payment_mode",
                 direction: params[:direction] == "asc" ? "desc" : "asc"
@@ -68,8 +88,10 @@
           <% end %>
         </th>
 
+        <!-- 📅 Date -->
         <th>
-          <%= link_to "தேதி", fund_collections_path(
+          <%= link_to "தேதி",
+              fund_collections_path(
                 search: params[:search],
                 sort: "created_at",
                 direction: params[:direction] == "asc" ? "desc" : "asc"
@@ -92,10 +114,20 @@
           <td><%= fund.payment_mode.capitalize %></td>
           <td><%= fund.created_at.strftime("%d-%m-%Y") %></td>
           <td>
-            <%= link_to "✏️ திருத்து", edit_fund_collection_path(fund), style: "margin-right:5px;" %> |
-            <%= link_to "🗑️ நீக்கு", fund_collection_path(fund),
-                method: :delete,
-                data: { confirm: "இந்த பதிவை நீக்க வேண்டுமா?" } %>
+            <%= link_to "✏️ திருத்து",
+                edit_fund_collection_path(fund),
+                style: "margin-right:6px;" %>
+
+            |
+
+            <!-- ✅ RAILS 7 DELETE (FIXED) -->
+            <%= link_to "🗑️ நீக்கு",
+                fund_collection_path(fund),
+                data: {
+                  turbo_method: :delete,
+                  turbo_confirm: "இந்த பதிவை நீக்க வேண்டுமா?"
+                },
+                style: "color:red; font-weight:bold;" %>
           </td>
         </tr>
       <% end %>
@@ -106,6 +138,7 @@
 
   <!-- 📄 Pagination -->
   <%= paginate @funds %>
+
 <% else %>
   <p>இப்போது எந்த நிதி பதிவும் இல்லை.</p>
 <% end %>
@@ -113,4 +146,6 @@
 <br>
 
 <!-- ➕ New Fund -->
-<%= link_to "➕ புதிய நிதி சேர்க்க", new_fund_collection_path, style: "font-weight:bold;" %>
+<%= link_to "➕ புதிய நிதி சேர்க்க",
+    new_fund_collection_path,
+    style: "font-weight:bold;" %>
